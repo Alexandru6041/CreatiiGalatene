@@ -48,7 +48,7 @@ body{
   font-size: 18px;
   outline: none;
   border: none;
-  color: #e0d2d2;
+  color: rgb(147, 149, 151);
   border: 1px solid rgba(255, 255, 255, 0.438);
   border-radius: 8px;
   background: rgba(105, 105, 105, 0);
@@ -63,6 +63,11 @@ body{
 }
 
 .field:nth-child(3)
+{
+    margin-top:20px;
+}
+
+.field:nth-child(4)
 {
     margin-top:20px;
 }
