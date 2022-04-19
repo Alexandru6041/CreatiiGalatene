@@ -9,7 +9,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sticky-menu.css" rel="stylesheet">
     <link href="css/log-in.css" rel="stylesheet">
-    <link href="css/sign-up.css" rel="stylesheet">
+    <link href="css/sign-up.css" rel="stylesheet">  
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -26,17 +26,17 @@
                 <div class="text">
                     Autentificare
                 </div>
-                <form action = "#" method = "POST">
+                <form action = "php/process-form_login.php" method="POST">
                     <div class="field">
                         <span class="fa fa-user"></span>
-                        <input type = "text" placeholder = "Email/Utilizator" id = "email" value = "" required/>
+                        <input type = "text" placeholder = "Email/Utilizator" id = "email" name = "email" autocomplete="off" value = "" required/>
                     </div>
 
                     <div class="field">
                         <span class="fa fa-lock"></span>
-                        <input type="password" placeholder="Parolă" id = "password" value = ""/>
+                        <input type="password" placeholder="Parolă" id = "password" name = "password" autocomplete="off" value = ""/>
                     </div>
-                    <button class="btn" type="submit" onclick = "getData()">Conectare</button>
+                    <button class="btn" type="submit">Conectare</button>
                     <button class="btn" type="reset">Reset</button>
                     <div class="exist-acc">
                         <a href="sign-up.html">
@@ -54,6 +54,6 @@
         </div>
     </div>
     <script src = "js/log-in.js"></script>
-    <script src = "python/dab.py"></script>
+    <!-- <script src = "main_log_in.php"></script> -->
 </body>
 </html>
