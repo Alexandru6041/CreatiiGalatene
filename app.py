@@ -33,19 +33,18 @@ def Acasa():
 def SignUp():
     return render_template("sign-up.html")
 
-@app.route("/LogIn")
+@app.route("/LogIn", methods=["POST","GET"])
 def LogIn():
+    if request.method == "POST":
+        email_input = request.form["email_field"]
+        password_input = request.form["password_field"]
+        current_dir = os.getcwd()
+        con_string = r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + str(current_dir) + "/MainDB.accdb;"
+        conn = pyodbc.connect(con_string)
+        cursor = conn.cursor()
+        User_Data = cursor.execute("SELECT * FROM UserData")
+        data = cursor.fetchall()
+        print("Email: " + email_input + "\nPassword: " + password_input)
     return render_template("log-in.html")
-
 if __name__ == "__main__":
-    app.run(debug = True, port = 5001)
-# current_dir = os.getcwd()
-# form = cgi.FieldStorage()
-# con_string = r"DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + str(current_dir) + "/MainDB.accdb;"
-# conn = pyodbc.connect(con_string)
-# cursor = conn.cursor()
-# User_Data = cursor.execute("SELECT * FROM UserData")
-# data = cursor.fetchall()
-# email_input = form.getvalue('email')
-# password_input = form.getvalue('password')
-# Path("file.txt").write_text(email_input)
+    app.run(debug = True, port = 5500)
