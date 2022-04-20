@@ -1,26 +1,10 @@
 from ast import Import
 import os
-os.system("pip3 install configparser")
-try:
-    from flask import Flask, render_template, request, redirect, url_for, session
-except ImportError:
-    os.system("pip3 install flask")
-try:
-    import re
-except ImportError:
-    os.system('pip3 install regex')
-try:
-    import pyodbc
-except ImportError:
-    os.system("pip install pyodbc")
-try:
-    import cgi
-except ImportError:
-    os.system("pip install cgi-tools")
-try:
-    from pathlib import Path
-except ImportError:
-    os.system("pip install pathlib")
+from flask import Flask, render_template, request, redirect, url_for, session
+import re
+import pyodbc
+import cgi
+from pathlib import Path
 
 app = Flask(__name__)
 @app.route('/')
@@ -47,4 +31,4 @@ def LogIn():
         print("Email: " + email_input + "\nPassword: " + password_input)
     return render_template("log-in.html")
 if __name__ == "__main__":
-    app.run(debug = True, port = 5500)
+    app.run(debug = False, host = '0.0.0.0')
