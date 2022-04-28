@@ -35,6 +35,11 @@
                             <span class="fa fa-user"></span>
                             <input type="text" placeholder="Nume de utilizator" name = "username_field" required>
                         </div>
+
+                        <div class = "field">
+                            <span class = "fa fa-lock"></span>
+                            <input type = "text" placeholder = "Ocupație" name = "User_Ocupation" required>
+                        </div>
                         
                         <div class="field">
                             <span class="fa fa-lock"></span>
@@ -45,19 +50,24 @@
                             <span class="fa fa-lock"></span>
                             <input type="password" placeholder="Confirmați Parola" name = "confirm_password_field" required>
                         </div>
-
+                        
                         <button class="btn" type="submit">Creați Cont</button>
                         
                         <button class="btn" type="reset">Reset</button>
-
-                        <div class="exist-acc">
+                    
+                    </form>
+                    {% if error %}
+                         <div class = "error">        
+                            <p class = "error" color = "red"><strong>Eroare: </strong> {{ error }} </p>
+                         </div>
+                    {% endif %}
+                    <div class="exist-acc">
                             <a href="/LogIn"><p>Am deja cont</p></a>
                         </div>
 
                         <div class="pass-unknown">
-                            <a href="/SchimbareParola"><p>Am uitat parola</p></a>
+                            <a href="/AdresaEmailPass"><p>Am uitat parola</p></a>
                         </div>
-                    </form>
                 </div>
         </div>
     </div>

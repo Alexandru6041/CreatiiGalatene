@@ -38,18 +38,25 @@
                     </div>
                     <button class="btn" type="submit"> Conectare </button>
                     <button class="btn" type="reset">Reset</button>
-                    <div class="exist-acc">
-                        <a href="/SignUp">
-                            <p>Nu am cont, vreau sa ma înregistrez</p>
-                        </a>
-                    </div>
-                    <div class="pass-unknown">
-                        <a href="/SchimbareParola">
-                            <p>Am uitat parola</p>
-                        </a>
-                    </div>
-
                 </form>
+                
+                {% if error %}
+                        <div class = "error">
+                            <p color = "red"><strong>Eroare:</strong> {{ error }} </p>
+                        </div>
+                {% endif %}
+
+                <div class="exist-acc">
+                    <a href="/SignUp">
+                        <p>Nu am cont, vreau sa ma înregistrez</p>
+                    </a>
+                </div>
+                <div class="pass-unknown">
+                    <a href="/AdresaEmailPass">
+                        <p>Am uitat parola</p>
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

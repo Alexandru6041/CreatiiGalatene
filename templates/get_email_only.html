@@ -24,31 +24,21 @@
         <div class="container">
             <div class="content">
                 <div class="text">
-                    Codul de verificare
+                    Adresa dumneavoastra de mail
                 </div>
-                <form method = "POST" action = "/passwordTrue">
+                <form method = "POST" action = "/AdresaEmailPass">
                     <div class="field">
                         <span class="fa fa-lock"></span>
-                        <input name = "parola1" type="text" placeholder="Parola nouă" id = "cod" autocomplete="off" value = ""/>
+                        <input name = "email_input" type="text" placeholder="Email" id = "cod" autocomplete="off" value = ""/>
                     </div>
-                    <div class="field">
-                        <span class="fa fa-lock"></span>
-                        <input name = "parola2" type="text" placeholder="Confirmă parola nouă" id = "cod" autocomplete="off" value = ""/>
-                    </div>
-                    <button class="btn" type="submit"> Schimba Parola </button>
+                    <button class="btn" type="submit"> Trimite Cod </button>
                     <button class="btn" type="reset">Reset</button>
-
                 </form>
-                {% if grate %}
-                     <div class = "grate">        
-                        <p class = "grate"> {{ grate }} </p>
-                    </div>
-                {% endif %}
-                {% if error %}
-                    <div class = "error">        
-                        <p class = "error" color = "red"><strong>Eroare: </strong> {{ error }} </p>
-                    </div>
-                {% endif %}
+                    {% if error %}
+                        <div class = "error">        
+                            <p class = "error" color = "red"><strong>Eroare: </strong> {{ error }} </p>
+                        </div>
+                    {% endif %}
             </div>
         </div>
     </div>

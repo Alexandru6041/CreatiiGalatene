@@ -20,7 +20,16 @@ html{
   height: 87%;
   width: 100%;
  }
-
+.error
+{
+  color: red;
+  margin-top:20px;
+}
+.grate
+{
+  color:rgb(50,205,50);
+  margin-top:20px;
+}
 body{
   display: grid;
   place-items: center;
@@ -70,6 +79,11 @@ body{
 .field:nth-child(4)
 {
     margin-top:20px;
+}
+
+.field:nth-child(5)
+{
+  margin-top:20px;
 }
 
 .field span{

@@ -26,29 +26,30 @@
                 <div class="text">
                     Codul de verificare
                 </div>
-                <form method = "POST" action = "/passwordTrue">
+                <form method = "POST" action = "/ConfirmareEmail">
                     <div class="field">
                         <span class="fa fa-lock"></span>
-                        <input name = "parola1" type="text" placeholder="Parola nouă" id = "cod" autocomplete="off" value = ""/>
+                        <input name = "user_input_code" type="text" placeholder="Cod" id = "cod" autocomplete="off" value = ""/>
                     </div>
-                    <div class="field">
-                        <span class="fa fa-lock"></span>
-                        <input name = "parola2" type="text" placeholder="Confirmă parola nouă" id = "cod" autocomplete="off" value = ""/>
-                    </div>
-                    <button class="btn" type="submit"> Schimba Parola </button>
+                    <button class="btn" type="submit"> Verifica </button>
                     <button class="btn" type="reset">Reset</button>
-
                 </form>
-                {% if grate %}
-                     <div class = "grate">        
-                        <p class = "grate"> {{ grate }} </p>
+                    {% if error %}
+                        <div class = "error">        
+                            <p class = "error" color = "red"><strong>Eroare: </strong> {{ error }} </p>
+                        </div>
+                    {% endif%}
+                    <div class="exist-acc">
+                        <a href="/SignUp">
+                            <p>Nu am cont, vreau sa ma înregistrez</p>
+                        </a>
                     </div>
-                {% endif %}
-                {% if error %}
-                    <div class = "error">        
-                        <p class = "error" color = "red"><strong>Eroare: </strong> {{ error }} </p>
+                    <div class="pass-unknown">
+                        <a href="/LogIn">
+                            <p>Autentificare cont existent</p>
+                        </a>
                     </div>
-                {% endif %}
+
             </div>
         </div>
     </div>
