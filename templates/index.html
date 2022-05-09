@@ -40,7 +40,7 @@
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
-                    
+                    {% if not logged_in %}
                     <li>
                         <a class="page-scroll" href="/SignUp">Hai in echipa noastră</a>
                     </li>
@@ -48,6 +48,19 @@
                     <li>
                         <a class="page-scroll" href="/LogIn">Conectare</a>
                     </li>
+                    {% endif %}
+
+                    {% if logged_in %}
+                        <li>
+                            <a class = "page-scroll" href = "/Profile?username={{username_encrypted}}&password={{password_encrypted}}">
+                                {{ username }}
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class = "page-scroll" href = "/Acasa">Deconectare</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>	

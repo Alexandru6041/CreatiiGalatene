@@ -110,3 +110,13 @@ html
 {
     color: #000;
 }
+button.button-class-username, button.button-class-username:hover, button.button-class-username:focus, button.button-class-username:active
+{
+    color: inherit;
+    text-decoration:None;
+}
+button.button-class-username:hover
+{
+    color: #333;
+	background-color: #F0F0F0;
+}

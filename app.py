@@ -1,8 +1,11 @@
+import binascii
+from urllib.error import HTTPError
+from cryptography.fernet import Fernet
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
-
 import random
+import base64
 from ast import Import
 from ssl import AlertDescription
 from flask import *
@@ -14,6 +17,7 @@ from time import sleep
 import hashlib
 from time import sleep
 import ssl
+from cryptography.fernet import Fernet
 import urllib3
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -21,16 +25,30 @@ import smtplib
 from email.mime.base import MIMEBase
 from pathlib import Path
 import random
+from math import sqrt, ceil, floor
 salt = "663ba00c232b3663ba00c232b3e42"
 current_dir = os.getcwd()
 pins = []
 user_data = []
 emails = []
 errors_email = "errors.creatiigalatene@gmail.com"
+password = "MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAl50wqLncIdlcavZiegZ3"
+from math import ceil, floor, sqrt
+key = b'DpB6D2AxmzeQHETiBWKVWoqFXY0hS3ClhG51dxgWtSE='
+fernet = Fernet(key)
+def encryption(string):
+    string = str(string)
+    encMes = fernet.encrypt(string.encode())
+    return str(encMes)
+            
+def decription(string):
+    string = str(string)[1:]
+    string = string.encode()
+    decMes = fernet.decrypt(string).decode()
+    return decMes
 def hash_string(string):
-    string = str(string).encode('utf-8')
-    return hashlib.sha512(string).hexdigest()
-
+    string = str(string).encode("utf-8")
+    return str(hashlib.sha512(string).hexdigest())[:100]
 def compare_strings(string1, string2):
     if string1 == string2:
         return True
@@ -92,9 +110,57 @@ def make_pin(length):
 app = Flask(__name__)
 @app.route('/')
 
-@app.route('/Acasa')
+@app.route('/Acasa', methods=["GET", "POST"])
 def Acasa():
-    return render_template("index.html")
+    email_user = None
+    username = None
+    logged_in = False
+    username_encrypted = None
+    username_encrypt = ''
+    password_encrypted = None
+    password_encrypt = ''
+    try:
+        sqliteConnection = sqlite3.connect('main.db')
+        cursor = sqliteConnection.cursor()
+    except sqlite3.Error as e:
+        email_me_error(e)
+    page_url = request.url
+    if("?" in str(page_url)):
+        email_input = request.args["email"]
+        password_input = request.args["password"]
+        email_input = decription(email_input)
+        password_input = decription(password_input)
+        cursor.execute("SELECT * FROM UserData WHERE Email = ? OR Username = ?", [email_input, email_input])
+        sqliteConnection.commit()
+        data = cursor.fetchall()
+        for row in data:
+            if(row[2] == password_input):
+                logged_in = True
+                username = row[0]
+                password = row[2]
+                username_encrypt = encryption(str(username))
+                password_encrypt = encryption(str(password))
+    return render_template("index.html", username=username, logged_in=logged_in, username_encrypted=username_encrypt, password_encrypted=password_encrypt)
+
+@app.route("/Profile", methods=["POST", "GET"])
+def Profile(): 
+    profile_url = request.url
+    if("?" in str(profile_url)):
+        username = request.args["username"]
+        password = request.args["password"]
+        try:
+            sqliteConnection = sqlite3.connect('main.db')
+            cursor = sqliteConnection.cursor()
+        except sqlite3.Error as e:
+            email_me_error(e)
+        username = decription(username)
+        cursor.execute("SELECT * FROM UserData WHERE username = ?", [username])
+        sqliteConnection.commit()
+        data = cursor.fetchall()
+        for row in data:
+            if(row[2] == password):
+                pass
+    return render_template("profile.html")
 
 @app.route("/SignUp", methods = ["POST", "GET"])
 def SignUp():
@@ -108,6 +174,9 @@ def SignUp():
         print("Error in database: " + e)
     if request.method == "POST":
         email_input = request.form["email_field"]
+        if(len(email_input) > 100):
+            error = "Emailul este prea lung"
+            return render_template("sign-up.html", error=error)
         cursor.execute("SELECT * FROM UserData WHERE Email=?", [email_input])
         sqliteConnection.commit()
         data = cursor.fetchall()
@@ -117,6 +186,9 @@ def SignUp():
                 return render_template("sign-up.html", error=error)
 
         username_input = request.form["username_field"]
+        if(len(username_input) > 50):
+            error = "Numele este prea lung"
+            return render_template("sign-up.html", error=error)
         cursor.execute("SELECT * FROM UserData WHERE Username=?", [username_input])
         sqliteConnection.commit()
         data = cursor.fetchall()
@@ -126,7 +198,13 @@ def SignUp():
                 return render_template("sign-up.html", error=error)
 
         ocupation_input = request.form["User_Ocupation"]
+        if(len(ocupation_input) > 100):
+            error = "Numele ocupatiei este prea lung"
+            return render_template("sign-up.html", error=error)
         password_input = request.form["password_field"]
+        if(len(password_input) > 255):
+            error = "Parola este prea lunga"
+            return render_template("sign-up.html", error=error)
         conf_password_input = request.form["confirm_password_field"]
         if(password_input != conf_password_input):
             error = "Parolele nu coincid"
@@ -178,13 +256,16 @@ def LogIn():
         except sqlite3.Error as e:
             email_me_error(e)
             error = "Nu a fost posibila conexiunea la baza de date"
-        cursor.execute("SELECT * FROM UserData WHERE Email = ?", [email_input])
+        cursor.execute("SELECT * FROM UserData WHERE Email = ? OR Username = ?", [email_input, email_input])
         sqliteConnection.commit()
         data = cursor.fetchall()
         password_input = hash_string(str(password_input))
         for row in data:
             if(row[2] == password_input):
-                return redirect("/Acasa")
+                encrypted_email = encryption(str(email_input))
+                encrypted_password = encryption(str(password_input))
+                return redirect("/Acasa?email=" + str(encrypted_email) + "&password=" + str(encrypted_password))
+            
         error = "Credentiale Incorecte!"    
         return render_template("log-in.html", error = error)
     return render_template("log-in.html", error=error)
@@ -250,6 +331,5 @@ def ConfirmareCod():
             error = "Codul de confirmare a fost introdus gresit"
 
     return render_template("change_pass_email_confirm.html", error = error)
-
 if __name__ == "__main__":
-    app.run(debug = True, port = 5500)
+    app.run(host = '0.0.0.0')
