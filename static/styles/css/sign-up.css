@@ -50,6 +50,19 @@ body{
   position: relative;
 }
 
+.field textarea
+{
+  height: 100%;
+  width: 100%;
+  padding-left: 45px;
+  font-size: 18px;
+  outline: none;
+  border: none;
+  color: rgb(147, 149, 151);
+  border: 1px solid rgba(255, 255, 255, 0.438);
+  border-radius: 8px;
+  background: rgba(105, 105, 105, 0);
+}
 .field input{
   height: 100%;
   width: 100%;
@@ -61,6 +74,11 @@ body{
   border: 1px solid rgba(255, 255, 255, 0.438);
   border-radius: 8px;
   background: rgba(105, 105, 105, 0);
+}
+
+.field textarea::placeholder
+{
+  color: #e0d2d2a6;
 }
 
 .field input::placeholder{

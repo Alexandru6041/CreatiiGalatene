@@ -18,9 +18,12 @@ Articles_table = """
     CREATE TABLE Articles(
         Author VARCHAR(100) NOT NULL,
         Title VARCHAR(100) NOT NULL,
-        Description VARCHAR(255) NOT NULL, 
-        Context VARCHAR(3000) NOT NULL,
-        Id INT
+        Description VARCHAR(500) NOT NULL, 
+        Context VARCHAR(1000000) NOT NULL,
+        Function VARCHAR(100) NOT NULL,
+        Email VARCHAR(100) NOT NULL,
+        Id INT,
+        Likes INT
     );
 """
 cursor.execute(Articles_table)

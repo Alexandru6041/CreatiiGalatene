@@ -1,4 +1,5 @@
 import binascii
+import email
 from urllib.error import HTTPError
 from cryptography.fernet import Fernet
 import os
@@ -148,6 +149,8 @@ def Profile():
     if("?" in str(profile_url)):
         username = request.args["username"]
         password = request.args["password"]
+        username_encrypted = username
+        password_encrypted = password
         try:
             sqliteConnection = sqlite3.connect('main.db')
             cursor = sqliteConnection.cursor()
@@ -160,8 +163,42 @@ def Profile():
         for row in data:
             if(row[2] == password):
                 pass
-    return render_template("profile.html")
-
+    return render_template("profile.html", username_encrypt = username_encrypted, password_encrypt = password_encrypted)
+@app.route("/AdaugareArticol", methods=["POST", "GET"])
+def adaugare_articol():
+    url = request.url
+    try:
+        sqliteConnection = sqlite3.connect('main.db')
+        cursor = sqliteConnection.cursor()
+    except sqlite3.Error as e:
+        email_me_error(e)
+    if("?" in str(url)):
+        username = request.args["username"]
+        password = request.args["password"]
+        username_encrypted = username
+        password_encrypted = password
+        username = decription(username)
+        print(request.method)
+        if request.method == "POST":
+            print(request.method)
+            Title = request.form["title"]
+            Article_Text = request.form["context_article"]
+            Article_Description = request.form["description_article"]
+            cursor.execute("SELECT * FROM UserData WHERE username = ?", [username])
+            sqliteConnection.commit()
+            data = cursor.fetchall()
+            for row in data:
+                username = decription(username_encrypted)
+                user_password = row[2]
+                user_email = row[1]
+                user_function = row[3]
+                user_id = row[4]
+                article_id = make_pin(8)
+                commit_likes = 0
+                cursor.execute("INSERT INTO Articles VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [username, Title, Article_Description, Article_Text, user_function, user_email, article_id, commit_likes])
+                sqliteConnection.commit()
+                email_me("Articolul dumneavoastra intitulat " + Title + " a fost urcat cu succes pe platforma CreatiiGalatene", user_email)
+    return render_template("adauga_articol.html", username=username_encrypted, password=password_encrypted)
 @app.route("/SignUp", methods = ["POST", "GET"])
 def SignUp():
     error = None
