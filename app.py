@@ -1,9 +1,12 @@
 import binascii
 import email
+from struct import Struct
 from urllib.error import HTTPError
 from cryptography.fernet import Fernet
 import os
 import sys
+
+from cv2 import estimateTranslation3D
 sys.path.append(os.path.dirname(__file__))
 import random
 import base64
@@ -164,6 +167,59 @@ def Profile():
             if(row[2] == password):
                 pass
     return render_template("profile.html", username_encrypt = username_encrypted, password_encrypt = password_encrypted)
+@app.route("/ArticoleleMele", methods = ["POST", "GET"])
+def MyArticles():
+    url = request.url
+    article_bool = False
+    count = 0
+    try:
+        sqliteConnection = sqlite3.connect('main.db')
+        cursor = sqliteConnection.cursor()
+    except sqlite3.Error as e:
+        email_me_error(e)
+    if("?" in str(url)):
+        username = request.args["username"]
+        password = request.args["password"]
+        
+        username_encrypted = username
+        password_encrypted = password
+        username = decription(username)
+        data_number = cursor.execute("SELECT * FROM Articles WHERE Author = ?", [username])
+        sqliteConnection.commit()
+        data_number = cursor.fetchall()
+        print(len(data_number))
+        if(len(data_number) > 0):
+            article_bool = True
+        data_main = cursor.execute("SELECT * FROM Articles WHERE Author = ?", [username])
+        sqliteConnection.commit()
+        data = cursor.fetchall()
+        
+    return render_template("MyArticles.html", article_bool = article_bool, values = data, username = username_encrypted, password = password_encrypted, article_no = len(data_number))
+
+
+@app.route("/MyArticles_Detail", methods = ["POST", "GET"])
+def article():
+    url = request.url
+    try:
+        sqliteConnection = sqlite3.connect("main.db")
+        cursor = sqliteConnection.cursor()
+    except sqlite3.error as e:
+        email_me_error(e)
+    if("?" in str(url)):
+        Id_user = request.args["id"]
+        username = request.args["username"]
+        password = request.args["password"]
+        username_decrypted = decription(username)
+        password_decrypted = decription(password)
+        cursor.execute("SELECT * FROM UserData WHERE Username=?", [username_decrypted])
+        sqliteConnection.commit()
+        data = cursor.fetchall()
+        for row in data:
+            if(password_decrypted == row[2]):      
+                cursor.execute("SELECT * FROM Articles WHERE Id=?", [Id_user])
+                sqliteConnection.commit()
+                data2 = cursor.fetchall()
+    return render_template("MyArticles_Detail.html", values=data2)
 @app.route("/AdaugareArticol", methods=["POST", "GET"])
 def adaugare_articol():
     url = request.url
@@ -178,9 +234,7 @@ def adaugare_articol():
         username_encrypted = username
         password_encrypted = password
         username = decription(username)
-        print(request.method)
         if request.method == "POST":
-            print(request.method)
             Title = request.form["title"]
             Article_Text = request.form["context_article"]
             Article_Description = request.form["description_article"]
@@ -369,4 +423,4 @@ def ConfirmareCod():
 
     return render_template("change_pass_email_confirm.html", error = error)
 if __name__ == "__main__":
-    app.run(host = '0.0.0.0')
+    app.run(host = '0.0.0.0', port=5500)

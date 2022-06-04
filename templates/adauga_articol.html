@@ -54,12 +54,12 @@
 
                     <div class="field">
                         <span class="fa fa-lock"></span>
-                        <textarea class = "context_text" name = "context_article" type="text" placeholder="Incepe-ti Articolul" id = "context_article" autocomplete="off" required>
+                        <textarea class = "context_text" name = "context_article" type="text" placeholder="Incepe-ti Articolul" id = "context_article" autocomplete="off" value = "" required>
                         </textarea>
                     </div>
                     <div class="field">
                         <span class="fa fa-lock"></span>
-                        <textarea class = "context_text" name = "description_article" type="text" placeholder="Un rezumat al articolului" id = "context_article" autocomplete="off" required>
+                        <textarea class = "context_text" name = "description_article" type="text" placeholder="Un rezumat al articolului" id = "summary_article" autocomplete="off" value = "" required>
                         </textarea>
                     </div>
                     <button class="btn" type="submit"> Pasul Urmator </button>
@@ -76,7 +76,8 @@
     <script type = "text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     
     <script type = "text/javascript" src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
-        
+     
+    <script type = "text/javascript" src="{{ url_for('static', filename='js/add_article.js') }}"></script>
 </body>
 
 </html>
