@@ -1,0 +1,33 @@
+.col-md-4
+{
+    margin-top: 10%;
+    position:center;
+    text-align:center;
+    transform:none;
+    height:100%;
+    width: 100%;
+    /* padding-bottom:75%; */
+}
+.container
+{
+    margin-top:0px;
+}
+nav
+{
+    margin-bottom:10%;
+}
+.col-lg-12
+{
+    margin-top: 10%;
+    position: center;
+    text-align: center;
+    transform: none;
+    height: 100%;
+    width: 100%;
+    padding-bottom:45%;
+} 
+html
+{
+    width: 100%;
+    height: 100%;
+}

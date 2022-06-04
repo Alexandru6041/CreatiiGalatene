@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://html5-templates.com/" />
+    <title>Creații Gălățene</title>
+    <link href="{{ url_for('static', filename='styles/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/css/sticky-menu.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/css/add_article.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/css/sign-up.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/css/my_articles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/css/log-in.css') }}" rel="stylesheet">
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <a class="navbar-brand page-scroll" href="#page-top">Creații Gălățene</a>
+            </div>
+        </div>	
+    </nav>
+    <div class = "Greet_Articles">
+        <h1></h1>
+    </div>
+    {% if article_bool %} 
+        {% for row in values %}
+        <div class = "container">
+            {% if article_no == 1 %}
+                <style>
+                    .col-md-4
+                    {
+                        padding-bottom:75%;
+                    }
+                </style>
+            {% endif %}
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4><i class="fa fa-fw fa-check"></i>{{ row[1] }}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                {{ row[2] }}
+                            </p>
+                            <p>
+                            {{ row[7] }} Aprecieri
+                            </p>
+                            <a href="MyArticles_Detail?id={{ row[6] }}&username={{ username }}&password={{ password }}" class="btn btn-default">Mai mult</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+            {% endfor %}
+    {% endif %}
+	<a id="back2Top" title="Back to top" href="#">&#10148;</a>
+    
+    <script type = "text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    
+    <script type = "text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    
+    <script type = "text/javascript" src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+     
+</body>
+
+</html>
