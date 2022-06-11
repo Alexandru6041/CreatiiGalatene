@@ -1,0 +1,23 @@
+.card {
+    width: 20rem;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.6);
+    height:30rem;
+    transition:0.3s;
+}
+.card:hover
+{
+    box-shadow: 15px 9px 15px rgba(0, 0, 0, 0.7);
+}
+td
+{
+    display:inline-block;
+    margin-top:5%;
+}
+
+table
+{
+    max-width: 100%;
+    table-layout: fixed;
+}

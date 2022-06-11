@@ -8,6 +8,8 @@
     <title>Creații Gălățene</title>
     <link href="{{ url_for('static', filename='styles/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles/css/sticky-menu.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/css/card.css') }}" rel="stylesheet">
+    <link href={{ url_for('static', filename='styles/css/bootstrap.css') }} rel="stylessheet">
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -37,9 +39,6 @@
                         <a class="page-scroll" href="#whatwedo">Articole</a>
                     </li>
                     
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
                     {% if not logged_in %}
                     <li>
                         <a class="page-scroll" href="/SignUp">Hai in echipa noastră</a>
@@ -98,11 +97,39 @@
                 <div class="col-lg-12">
                     <h1>Articole</h1>
                 </div>
+                <table>
+                    {% for row in articles %}
+                    <td>
+                        {%if logged_in%}
+                            <a class = "card-link" href="/ArticleRead?username={{username_encrypted}}&id={{row[6]}}">
+                        {%endif%}
+
+                        {%if not logged_in%}
+                            <a class = "card-link" href="/ArticleRead?username=NULL&id={{ row[6] }}">
+                        {%endif%}
+                            <div class = "card">
+                                <figure>
+                                    {{row[0]}}
+                                </figure>
+                                <div class = "card-body">
+                                    <h5 class = "card-title">
+                                        {{row[1]}}
+                                    </h5>
+                                    <p class = "card-text">
+                                        {{row[2]}}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        </td>
+                    {% endfor %}    
+                    </table>
             </div>
-        </div>
+     </div>
     </section>
-    
-    <section id="contact" class="contact-section">
+    <div class = "block">
+    </div>
+    <!-- <section id="contact" class="contact-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -110,8 +137,7 @@
                 </div>
             </div>
         </div>
-    </section>
-    
+    </section>-->
 	<a id="back2Top" title="Back to top" href="#">&#10148;</a>
     
     <script type = "text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>

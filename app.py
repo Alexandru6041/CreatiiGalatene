@@ -60,7 +60,7 @@ def compare_strings(string1, string2):
         return False
 def email_me_error(error):
     sender_mail = "help.creatiigalatene@gmail.com"
-    password = 'vomgip-mAfzih-7hafty'
+    password = 'casnpyzwzfakimdr'
     message = MIMEMultipart("alternative")
     message["Subject"] = "Eroare!"
     message["From"] = sender_mail
@@ -70,23 +70,23 @@ def email_me_error(error):
     message.attach(part1)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        server.login(sender_mail, password="vomgip-mAfzih-7hafty")
+        server.login(sender_mail, password="casnpyzwzfakimdrv")
         server.sendmail(sender_mail, errors_email, message.as_string())
-def email_me(generated_code, user_email):
+def email_me(Subject, Context, user_email):
     i = 0
     while i < 1:
         sender_mail = "help.creatiigalatene@gmail.com"
-        password = 'vomgip-mAfzih-7hafty'
+        password = 'casnpyzwzfakimdr'
         message = MIMEMultipart("alternative")
-        message["Subject"] = ""
+        message["Subject"] = Subject
         message["From"] = sender_mail
         message["To"] = user_email
-        text = str(generated_code)
+        text = Context
         part1 = MIMEText(text, "plain")
         message.attach(part1)
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-            server.login(sender_mail, password="vomgip-mAfzih-7hafty")
+            server.login(sender_mail, password="casnpyzwzfakimdr")
             server.sendmail(sender_mail, user_email, message.as_string())
         i += 1
     if(i == 1):
@@ -119,16 +119,21 @@ def Acasa():
     email_user = None
     username = None
     logged_in = False
+    data_articles = ''
     username_encrypted = None
     username_encrypt = ''
     password_encrypted = None
     password_encrypt = ''
+    i = 1
     try:
         sqliteConnection = sqlite3.connect('main.db')
         cursor = sqliteConnection.cursor()
     except sqlite3.Error as e:
         email_me_error(e)
     page_url = request.url
+    cursor.execute("SELECT * FROM Articles")
+    sqliteConnection.commit()
+    data_articles = cursor.fetchall()
     if("?" in str(page_url)):
         email_input = request.args["email"]
         password_input = request.args["password"]
@@ -144,7 +149,7 @@ def Acasa():
                 password = row[2]
                 username_encrypt = encryption(str(username))
                 password_encrypt = encryption(str(password))
-    return render_template("index.html", username=username, logged_in=logged_in, username_encrypted=username_encrypt, password_encrypted=password_encrypt)
+    return render_template("index.html", username=username, logged_in=logged_in, username_encrypted=username_encrypt, password_encrypted=password_encrypt, articles = data_articles, i = i)
 
 @app.route("/Profile", methods=["POST", "GET"])
 def Profile(): 
@@ -222,6 +227,7 @@ def article():
     return render_template("MyArticles_Detail.html", values=data2)
 @app.route("/AdaugareArticol", methods=["POST", "GET"])
 def adaugare_articol():
+    error = None
     url = request.url
     try:
         sqliteConnection = sqlite3.connect('main.db')
@@ -238,6 +244,8 @@ def adaugare_articol():
             Title = request.form["title"]
             Article_Text = request.form["context_article"]
             Article_Description = request.form["description_article"]
+            if(len(Article_Description) > 300):
+                error = "Descrierea este prea lunga"
             cursor.execute("SELECT * FROM UserData WHERE username = ?", [username])
             sqliteConnection.commit()
             data = cursor.fetchall()
@@ -249,10 +257,88 @@ def adaugare_articol():
                 user_id = row[4]
                 article_id = make_pin(8)
                 commit_likes = 0
-                cursor.execute("INSERT INTO Articles VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [username, Title, Article_Description, Article_Text, user_function, user_email, article_id, commit_likes])
+                if(error == None):
+                    cursor.execute("INSERT INTO Articles VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [username, Title, Article_Description, Article_Text, user_function, user_email, article_id, commit_likes])
+                    sqliteConnection.commit()
+                    email_me("Felicitari pentru postarea unui nou articol: " + Title , "Articolul dumneavoastra intitulat ' " + Title + " ' a fost urcat cu succes pe platforma CreatiiGalatene", user_email)
+    return render_template("adauga_articol.html", username=username_encrypted, password=password_encrypted, error = error)
+@app.route("/ArticleRead", methods=["GET", "POST"])
+def ARead():
+    url = request.url
+    error = None
+    liked_article_by_user = False
+    data = []
+    logged_in = True
+    ok = 1
+    try:
+        sqliteConnection = sqlite3.connect('main.db')
+        cursor = sqliteConnection.cursor()
+    except sqlite3.Error as e:
+        email_me_error(e)
+    if("?" in str(url)):
+        id_article = request.args["id"]
+        username = request.args["username"]
+        if(username == "NULL"):
+            logged_in = False
+        cursor.execute("SELECT * FROM Liked WHERE Id = ?", [id_article])
+        sqliteConnection.commit()
+        data = cursor.fetchall()
+        for row in data:
+            if(logged_in == True):
+                if(str(decription(username)) == row[1]):
+                    liked_article_by_user = True
+        if(liked_article_by_user == False and ok == 1):
+            if(request.method == "POST"):
+                if(logged_in == False):
+                    error = "Trebuie sa fiti autentificat ca sa apreciati articolul"
+                    cursor.execute(
+                        "SELECT * FROM Articles WHERE Id = ?", [id_article])
+                    sqliteConnection.commit()
+                    data = cursor.fetchall()
+                    return render_template("ARead.html", error=error, data=data, liked_article_by_user=liked_article_by_user, Id=id_article, username=username)
+
+                cursor.execute("SELECT * FROM Articles WHERE Id = ?", [id_article])
                 sqliteConnection.commit()
-                email_me("Articolul dumneavoastra intitulat " + Title + " a fost urcat cu succes pe platforma CreatiiGalatene", user_email)
-    return render_template("adauga_articol.html", username=username_encrypted, password=password_encrypted)
+                data = cursor.fetchall()
+                for row in data:
+                    likes = row[7]
+                    likes = int(likes) + 1
+                    cursor.execute("UPDATE Articles SET Likes = ? WHERE Id = ?", [likes, id_article])
+                    sqliteConnection.commit()
+                    cursor.execute("INSERT INTO Liked VALUES (?, ?)", [id_article, decription(username)])
+                    sqliteConnection.commit()
+                    print("OK Liked", likes)
+                    cursor.execute(
+                        "SELECT * FROM Articles WHERE Id = ?", [id_article])
+                    sqliteConnection.commit()
+                    data = cursor.fetchall()
+                liked_article_by_user = True
+                ok = 0
+        if(liked_article_by_user == True and ok == 1):
+            if(request.method == "POST"):
+                cursor.execute(
+                    "SELECT * FROM Articles WHERE Id = ?", [id_article])
+                sqliteConnection.commit()
+                data = cursor.fetchall()
+                for row in data:
+                    likes = row[7]
+                    likes = int(likes) - 1
+                    cursor.execute("UPDATE Articles SET Likes = ? WHERE Id = ?", [
+                                likes, id_article])
+                    sqliteConnection.commit()
+                    cursor.execute("DELETE FROM Liked WHERE Id = ? AND Username = ?", [id_article, decription(username)])
+                    sqliteConnection.commit()
+                    print("OK Unliked", likes)
+                    cursor.execute(
+                        "SELECT * FROM Articles WHERE Id = ?", [id_article])
+                    sqliteConnection.commit()
+                    data = cursor.fetchall()
+                liked_article_by_user = False
+                ok = 0
+        cursor.execute("SELECT * FROM Articles WHERE Id = ?", [id_article])
+        sqliteConnection.commit()
+        data = cursor.fetchall()
+    return render_template("ARead.html", error = error, data = data, liked_article_by_user = liked_article_by_user, Id = id_article, username = username)
 @app.route("/SignUp", methods = ["POST", "GET"])
 def SignUp():
     error = None
@@ -307,7 +393,7 @@ def SignUp():
             user_data.append(password_input)
             user_data.append(ocupation_input)
             user_data.append(account_id)
-            email_me(account_id, email_input)
+            email_me("Codul de confirmare: ", account_id, email_input)
             pins.append(account_id)
             return redirect("/ConfirmareEmail")
     return render_template("sign-up.html", error = error)
@@ -401,7 +487,7 @@ def AdresaEmailPass():
         data = cursor.fetchall()
         for row in data:
             if row[1] == email_input:
-                email_me(generated_code, email_input)
+                email_me("Schimbare parola: ", generated_code, email_input)
                 pins.append(generated_code)
                 emails.append(email_input)
                 return redirect("/SchimbareParola")
@@ -423,4 +509,4 @@ def ConfirmareCod():
 
     return render_template("change_pass_email_confirm.html", error = error)
 if __name__ == "__main__":
-    app.run(host = '0.0.0.0', port=5500)
+    app.run(host = '0.0.0.0')

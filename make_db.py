@@ -18,7 +18,7 @@ Articles_table = """
     CREATE TABLE Articles(
         Author VARCHAR(100) NOT NULL,
         Title VARCHAR(100) NOT NULL,
-        Description VARCHAR(500) NOT NULL, 
+        Description VARCHAR(300) NOT NULL, 
         Context VARCHAR(1000000) NOT NULL,
         Function VARCHAR(100) NOT NULL,
         Email VARCHAR(100) NOT NULL,
@@ -27,5 +27,11 @@ Articles_table = """
     );
 """
 cursor.execute(Articles_table)
-
+Liked_table = """
+    CREATE TABLE Liked(
+        Id INT,
+        Username VARCHAR(50) NOT NULL
+    )
+"""
+cursor.execute(Liked_table)
 sqliteConnection.close()

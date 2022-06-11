@@ -62,6 +62,11 @@
                         <textarea class = "context_text" name = "description_article" type="text" placeholder="Un rezumat al articolului" id = "summary_article" autocomplete="off" value = "" required>
                         </textarea>
                     </div>
+                    {% if error %}
+                    <div class = "error">
+                        <p color = "red"><strong>Eroare:</strong> {{ error }} </p>
+                    </div>
+                    {% endif %}
                     <button class="btn" type="submit"> Pasul Urmator </button>
                     <button class="btn" type="reset">Reset</button>
                 </form>

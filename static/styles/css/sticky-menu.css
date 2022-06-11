@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 body 
 {
     width: 100%;
@@ -61,7 +62,12 @@ html
     text-align: center;
     background: #fff;
 }
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 .about-section 
 {
     height: 100%;
@@ -77,11 +83,30 @@ html
     text-align: center;
     background: #fff;
 }
+.column 
+{
+    float: left;
+    width: 25%;
+    padding: 0 10px;
+}
 
+/* Remove extra left and right margins, due to padding in columns */
+.row 
+{
+    margin: 0 -5px;
+}
+
+/* Clear floats after the columns */
+/* Style the counter cards */
+
+.block
+{
+    padding-bottom:30%;
+}
 .contact-section 
 {
-    height: 100%;
-    padding-top: 150px;
+    height: 40%;
+    /* padding-top: 150px; */
     text-align: center;
     background: #EFDECD;
 }
@@ -104,6 +129,35 @@ html
 {
     background-color: #EBFAFF;
     border-color: #e7e7e7;
+}
+
+.card-link:hover
+{
+    text-decoration: none;
+    cursor:auto;
+    color:black;
+}
+.button-like
+{
+    background: #FF676D;
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.button-like:hover
+{
+    background: #6616d0;
+}
+.card-link
+{
+    text-decoration: none;
+    cursor:auto;
+    color:black;
 }
 
 .navbar-default .navbar-nav > li > a 
