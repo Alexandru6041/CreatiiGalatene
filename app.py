@@ -5,7 +5,7 @@ from urllib.error import HTTPError
 from cryptography.fernet import Fernet
 import os
 import sys
-
+import time
 from cv2 import estimateTranslation3D
 sys.path.append(os.path.dirname(__file__))
 import random
@@ -269,6 +269,8 @@ def ARead():
     liked_article_by_user = False
     data = []
     logged_in = True
+    email=""
+    password=""
     ok = 1
     try:
         sqliteConnection = sqlite3.connect('main.db')
@@ -280,6 +282,14 @@ def ARead():
         username = request.args["username"]
         if(username == "NULL"):
             logged_in = False
+        if(logged_in == True):
+            cursor.execute(
+                "SELECT * FROM UserData WHERE Username = ?", [decription(username)])
+            sqliteConnection.commit()
+            data = cursor.fetchall()
+            for row in data:
+                email = row[1]
+                password = row[2]
         cursor.execute("SELECT * FROM Liked WHERE Id = ?", [id_article])
         sqliteConnection.commit()
         data = cursor.fetchall()
@@ -335,10 +345,17 @@ def ARead():
                     data = cursor.fetchall()
                 liked_article_by_user = False
                 ok = 0
+        if(logged_in  == True):
+            cursor.execute("SELECT * FROM UserData WHERE Username = ?", [username])
+            sqliteConnection.commit()
+            data = cursor.fetchall()
+            for row in data:
+                email = row[1]
+                password = row[2]   
         cursor.execute("SELECT * FROM Articles WHERE Id = ?", [id_article])
         sqliteConnection.commit()
         data = cursor.fetchall()
-    return render_template("ARead.html", error = error, data = data, liked_article_by_user = liked_article_by_user, Id = id_article, username = username)
+    return render_template("ARead.html", error = error, data = data, liked_article_by_user = liked_article_by_user, Id = id_article, username = username, email = encryption(email), password = encryption(password), logged_in = logged_in)
 @app.route("/SignUp", methods = ["POST", "GET"])
 def SignUp():
     error = None
@@ -466,10 +483,19 @@ def password_true():
             cursor.execute("UPDATE UserData SET User_Password = ? WHERE Email = ?", [new_pass, email_input])
             sqliteConnection.commit()
             grate = "Parola a fost schimbata cu succes!"
-            return render_template("change_pass_trueverify.html", grate = grate)
+            time.sleep(2)
+            cursor.execute("SELECT * FROM UserData WHERE Email = ?", [email_input])
+            sqliteConnection.commit()
+            data = cursor.fetchall()
+            for row in data:
+                password = row[2]
+                email_input = encryption(email_input)
+                password = encryption(password)
+                url_redirect = "/Acasa?email=" + email_input + "&password=" + password
+                return redirect(str(url_redirect)) 
         else:
             error = "Parolele nu coincid"
-    return render_template("change_pass_trueverify.html", error = error)
+    return render_template("change_pass_trueverify.html", error = error, grate = grate)
 @app.route("/AdresaEmailPass", methods=["GET", "POST"])
 def AdresaEmailPass():
     error = None
