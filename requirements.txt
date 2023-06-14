@@ -72,7 +72,7 @@ parso @ file:///home/conda/feedstock_root/build_artifacts/parso_1638334955874/wo
 pathlib2==2.3.7.post1
 pexpect @ file:///home/conda/feedstock_root/build_artifacts/pexpect_1602535608087/work
 pickleshare @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1602536217715/work
-Pillow==9.1.1
+Pillow==9.3.0
 progressbar==2.5
 prometheus-client @ file:///home/conda/feedstock_root/build_artifacts/prometheus_client_1643395600215/work
 prompt-toolkit @ file:///home/conda/feedstock_root/build_artifacts/prompt-toolkit_1644497866770/work
