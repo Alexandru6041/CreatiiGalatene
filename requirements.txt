@@ -11,7 +11,7 @@ bleach @ file:///home/conda/feedstock_root/build_artifacts/bleach_1629908509068/
 blessed==1.19.1
 botocore==1.24.41
 brotlipy @ file:///Users/runner/miniforge3/conda-bld/brotlipy_1636012319596/work
-certifi==2021.10.8
+certifi==2022.12.07
 cffi @ file:///Users/runner/miniforge3/conda-bld/cffi_1636046173594/work
 cgi-tools==0.0.4
 chalice==1.26.6
@@ -30,7 +30,7 @@ defusedxml @ file:///home/conda/feedstock_root/build_artifacts/defusedxml_161523
 Django==4.1.9
 entrypoints @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1643888246732/work
 executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1646044401614/work
-Flask==2.1.1
+Flask==2.2.5
 Flask-MySQLdb==1.0.1
 flit_core @ file:///home/conda/feedstock_root/build_artifacts/flit-core_1645629044586/work/source/flit_core
 idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1642433548627/work
@@ -72,7 +72,7 @@ parso @ file:///home/conda/feedstock_root/build_artifacts/parso_1638334955874/wo
 pathlib2==2.3.7.post1
 pexpect @ file:///home/conda/feedstock_root/build_artifacts/pexpect_1602535608087/work
 pickleshare @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1602536217715/work
-Pillow==9.1.0
+Pillow==9.1.1
 progressbar==2.5
 prometheus-client @ file:///home/conda/feedstock_root/build_artifacts/prometheus_client_1643395600215/work
 prompt-toolkit @ file:///home/conda/feedstock_root/build_artifacts/prompt-toolkit_1644497866770/work
@@ -99,7 +99,7 @@ ruamel-yaml-conda @ file:///Users/runner/miniforge3/conda-bld/ruamel_yaml_163600
 Send2Trash @ file:///home/conda/feedstock_root/build_artifacts/send2trash_1628511208346/work
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
 soupsieve @ file:///home/conda/feedstock_root/build_artifacts/soupsieve_1638550740809/work
-sqlparse==0.4.2
+sqlparse==0.4.4
 stack-data @ file:///home/conda/feedstock_root/build_artifacts/stack_data_1644872665635/work
 terminado @ file:///Users/runner/miniforge3/conda-bld/terminado_1646684760818/work
 testpath @ file:///home/conda/feedstock_root/build_artifacts/testpath_1645693042223/work
