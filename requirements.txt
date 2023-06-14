@@ -109,6 +109,6 @@ traitlets @ file:///home/conda/feedstock_root/build_artifacts/traitlets_16352605
 urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1647489083693/work
 wcwidth @ file:///home/conda/feedstock_root/build_artifacts/wcwidth_1600965781394/work
 webencodings==0.5.1
-Werkzeug==2.1.1
+Werkzeug==2.2.3
 widgetsnbextension @ file:///Users/runner/miniforge3/conda-bld/widgetsnbextension_1647446981993/work
 zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1643828507773/work
