@@ -11,7 +11,7 @@ bleach @ file:///home/conda/feedstock_root/build_artifacts/bleach_1629908509068/
 blessed==1.19.1
 botocore==1.24.41
 brotlipy @ file:///Users/runner/miniforge3/conda-bld/brotlipy_1636012319596/work
-certifi==2022.12.07
+certifi==2023.7.22
 cffi @ file:///Users/runner/miniforge3/conda-bld/cffi_1636046173594/work
 cgi-tools==0.0.4
 chalice==1.26.6
@@ -27,7 +27,7 @@ darkdetect==0.5.1
 debugpy @ file:///Users/runner/miniforge3/conda-bld/debugpy_1636043380823/work
 decorator @ file:///home/conda/feedstock_root/build_artifacts/decorator_1641555617451/work
 defusedxml @ file:///home/conda/feedstock_root/build_artifacts/defusedxml_1615232257335/work
-Django==4.1.9
+Django==4.1.10
 entrypoints @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1643888246732/work
 executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1646044401614/work
 Flask==2.2.5
